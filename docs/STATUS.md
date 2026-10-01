@@ -4,8 +4,8 @@
 
 ## Resumen
 - **Fase activa:** 0 — Setup del repositorio
-- **Última tarea completada:** T0.1
-- **Siguiente tarea:** T0.2
+- **Última tarea completada:** T0.2
+- **Siguiente tarea:** T0.3
 - **MVP actual:** MVP 1 (en progreso)
 
 ## Qué funciona hoy
