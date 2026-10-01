@@ -4,8 +4,8 @@
 
 ## Resumen
 - **Fase activa:** 1 — E-Commerce backend (MVP 1)
-- **Última tarea completada:** T1.2
-- **Siguiente tarea:** T1.3
+- **Última tarea completada:** T1.3
+- **Siguiente tarea:** T1.4
 - **MVP actual:** MVP 1 (en progreso)
 
 ## Qué funciona hoy

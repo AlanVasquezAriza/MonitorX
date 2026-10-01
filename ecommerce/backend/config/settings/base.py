@@ -30,7 +30,10 @@ INSTALLED_APPS = [
     "drf_spectacular",
     # Local apps (will be added in future tasks: users, categories, products, cart, orders)
     "core",
+    "users",
 ]
+
+AUTH_USER_MODEL = "users.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
