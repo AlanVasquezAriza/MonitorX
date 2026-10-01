@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "drf_spectacular",
     # Local apps (will be added in future tasks: users, categories, products, cart, orders)
+    "core",
 ]
 
 MIDDLEWARE = [
