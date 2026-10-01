@@ -11,7 +11,7 @@ Orden pensado en MVPs: **MVP 1** = Fases 0-3 · **MVP 2** = Fases 4-6 · **MVP 3
   - Hecho cuando: el repo existe y está subido a GitHub con la estructura vacía.
 - [x] **T0.2** Crear `.env.example` (DATABASE_URL, SECRET_KEY, JWT_SECRET, REDIS_URL, MONITORING_API_KEY, MONITORX_URL).
 - [x] **T0.3** Crear `Makefile` con `up`, `down`, `test`, `lint`, `seed`.
-- [ ] **T0.4** Configurar pre-commit (ruff, black, eslint, prettier) y Conventional Commits.
+- [x] **T0.4** Configurar pre-commit (ruff, black, eslint, prettier) y Conventional Commits.
 - [ ] **T0.5** Plantilla de ADR en `docs/adr/000-template.md` y primeros ADR (push vs pull, monorepo).
 
 ---
