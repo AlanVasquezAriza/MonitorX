@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "corsheaders",
     "drf_spectacular",
+    "rest_framework_simplejwt.token_blacklist",
     # Local apps (will be added in future tasks: users, categories, products, cart, orders)
     "core",
     "users",
@@ -125,3 +126,13 @@ SPECTACULAR_SETTINGS = {
 
 # CORS Settings
 CORS_ALLOW_ALL_ORIGINS = True
+
+from datetime import timedelta
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "UPDATE_LAST_LOGIN": True,
+    "SIGNING_KEY": os.getenv("JWT_SECRET", SECRET_KEY),
+}

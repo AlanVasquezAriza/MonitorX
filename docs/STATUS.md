@@ -4,12 +4,16 @@
 
 ## Resumen
 - **Fase activa:** 1 — E-Commerce backend (MVP 1)
-- **Última tarea completada:** T1.3
-- **Siguiente tarea:** T1.4
+- **Última tarea completada:** T1.4
+- **Siguiente tarea:** T1.5
 - **MVP actual:** MVP 1 (en progreso)
 
 ## Qué funciona hoy
-- Setup completo del repositorio (Fase 0): estructura del monorepo, git, .gitignore, .editorconfig, LICENSE, .env.example, Makefile, pre-commit config, ADR-001 (monorepo) y ADR-002 (push vs pull).
+- Setup completo del repositorio (Fase 0).
+- Django + DRF + settings por entorno, `python manage.py check` pasa (T1.1).
+- `GET /api/health` con verificación de BD (T1.2).
+- Modelo `User` custom con roles `CUSTOMER`/`ADMIN`, email como identificador (T1.3).
+- Auth JWT completa: `POST /api/auth/register`, `POST /api/auth/login`, `POST /api/auth/refresh`, `POST /api/auth/logout` con blacklist (T1.4). 11/11 tests pasando.
 
 ## Cómo correrlo
 ```text

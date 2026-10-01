@@ -21,7 +21,7 @@ Orden pensado en MVPs: **MVP 1** = Fases 0-3 · **MVP 2** = Fases 4-6 · **MVP 3
   - Hecho cuando: `python manage.py check` pasa y conecta a Postgres.
 - [x] **T1.2** Endpoint `GET /api/health` (verifica BD).
 - [x] **T1.3** App `users`: modelo de usuario custom (campos del README), roles `CUSTOMER`/`ADMIN`.
-- [ ] **T1.4** Auth JWT: registro, login, logout (blacklist), refresh.
+- [x] **T1.4** Auth JWT: registro, login, logout (blacklist), refresh.
   - Hecho cuando: tests cubren registro, login, refresh, logout y acceso sin token (401).
 - [ ] **T1.5** Recuperación de contraseña (token + email a consola en dev).
 - [ ] **T1.6** Permisos por rol (`IsAdmin`, `IsOwnerOrAdmin`).
