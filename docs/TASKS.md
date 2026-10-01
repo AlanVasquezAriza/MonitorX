@@ -17,7 +17,7 @@ Orden pensado en MVPs: **MVP 1** = Fases 0-3 · **MVP 2** = Fases 4-6 · **MVP 3
 ---
 
 ## FASE 1 — E-Commerce backend (MVP 1)
-- [ ] **T1.1** Proyecto Django + DRF + settings por entorno + PostgreSQL vía `DATABASE_URL`.
+- [x] **T1.1** Proyecto Django + DRF + settings por entorno + PostgreSQL vía `DATABASE_URL`.
   - Hecho cuando: `python manage.py check` pasa y conecta a Postgres.
 - [ ] **T1.2** Endpoint `GET /api/health` (verifica BD).
 - [ ] **T1.3** App `users`: modelo de usuario custom (campos del README), roles `CUSTOMER`/`ADMIN`.
