@@ -4,8 +4,8 @@
 
 ## Resumen
 - **Fase activa:** 1 — E-Commerce backend (MVP 1)
-- **Última tarea completada:** T1.4
-- **Siguiente tarea:** T1.5
+- **Última tarea completada:** T1.5
+- **Siguiente tarea:** T1.6
 - **MVP actual:** MVP 1 (en progreso)
 
 ## Qué funciona hoy
@@ -13,7 +13,7 @@
 - Django + DRF + settings por entorno, `python manage.py check` pasa (T1.1).
 - `GET /api/health` con verificación de BD (T1.2).
 - Modelo `User` custom con roles `CUSTOMER`/`ADMIN`, email como identificador (T1.3).
-- Auth JWT completa: `POST /api/auth/register`, `POST /api/auth/login`, `POST /api/auth/refresh`, `POST /api/auth/logout` con blacklist (T1.4). 11/11 tests pasando.
+- Auth JWT completa + recuperación de contraseña con token (19/19 tests pasando). Endpoints: `register`, `login`, `refresh`, `logout`, `profile`, `password-reset`, `password-reset/confirm`.
 
 ## Cómo correrlo
 ```text

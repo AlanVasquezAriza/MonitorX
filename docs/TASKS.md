@@ -23,7 +23,7 @@ Orden pensado en MVPs: **MVP 1** = Fases 0-3 · **MVP 2** = Fases 4-6 · **MVP 3
 - [x] **T1.3** App `users`: modelo de usuario custom (campos del README), roles `CUSTOMER`/`ADMIN`.
 - [x] **T1.4** Auth JWT: registro, login, logout (blacklist), refresh.
   - Hecho cuando: tests cubren registro, login, refresh, logout y acceso sin token (401).
-- [ ] **T1.5** Recuperación de contraseña (token + email a consola en dev).
+- [x] **T1.5** Recuperación de contraseña (token + email a consola en dev).
 - [ ] **T1.6** Permisos por rol (`IsAdmin`, `IsOwnerOrAdmin`).
 - [ ] **T1.7** App `categories`: CRUD, solo ADMIN escribe.
 - [ ] **T1.8** App `products`: CRUD, búsqueda, filtros (categoría, precio), orden, paginación, `is_active`.

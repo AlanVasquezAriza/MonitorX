@@ -1,21 +1,24 @@
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from rest_framework.test import APITestCase
 from rest_framework import status
 
 User = get_user_model()
 
-REGISTER_URL = reverse.__func__ if callable(getattr(reverse, '__func__', None)) else None
 REGISTER_PATH = 'register'
 LOGIN_PATH = 'token_obtain_pair'
 REFRESH_PATH = 'token_refresh'
 LOGOUT_PATH = 'logout'
 PROFILE_PATH = 'profile'
-HEALTH_PATH = 'health_check'
+PW_RESET_REQUEST_PATH = 'password_reset_request'
+PW_RESET_CONFIRM_PATH = 'password_reset_confirm'
 
 
 class AuthFlowTests(APITestCase):
-    """Tests for registration, login, refresh, logout and protected routes."""
+    """Tests for registration, login, refresh, logout and protected routes (T1.4)."""
 
     def setUp(self):
         self.user_data = {
@@ -99,13 +102,11 @@ class AuthFlowTests(APITestCase):
         access_token = login_response.data['access']
         refresh_token = login_response.data['refresh']
 
-        # Logout
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {access_token}')
         url = reverse(LOGOUT_PATH)
         response = self.client.post(url, {'refresh': refresh_token}, format='json')
         self.assertEqual(response.status_code, status.HTTP_205_RESET_CONTENT)
 
-        # The blacklisted refresh should now be rejected
         refresh_url = reverse(REFRESH_PATH)
         refresh_response = self.client.post(refresh_url, {'refresh': refresh_token}, format='json')
         self.assertEqual(refresh_response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -131,3 +132,91 @@ class AuthFlowTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['email'], self.user_data['email'])
         self.assertNotIn('password', response.data)
+
+
+class PasswordResetTests(APITestCase):
+    """Tests for password recovery flow (T1.5)."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(
+            email='reset@example.com',
+            password='OldPass123!',
+        )
+        self.generator = PasswordResetTokenGenerator()
+        self.uid = urlsafe_base64_encode(force_bytes(self.user.pk))
+        self.token = self.generator.make_token(self.user)
+
+    # ── Request reset ─────────────────────────────────────────────────────
+    def test_reset_request_with_existing_email_returns_200(self):
+        """Always 200 — no email enumeration."""
+        url = reverse(PW_RESET_REQUEST_PATH)
+        response = self.client.post(url, {'email': 'reset@example.com'}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn('detail', response.data)
+
+    def test_reset_request_with_unknown_email_still_returns_200(self):
+        """Security: unknown emails must NOT return 404/400."""
+        url = reverse(PW_RESET_REQUEST_PATH)
+        response = self.client.post(url, {'email': 'nobody@example.com'}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_reset_request_invalid_email_format_returns_400(self):
+        url = reverse(PW_RESET_REQUEST_PATH)
+        response = self.client.post(url, {'email': 'not-an-email'}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    # ── Confirm reset ─────────────────────────────────────────────────────
+    def test_reset_confirm_with_valid_token_changes_password(self):
+        url = reverse(PW_RESET_CONFIRM_PATH)
+        response = self.client.post(url, {
+            'uid': self.uid,
+            'token': self.token,
+            'new_password': 'NewStrongPass456!',
+        }, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Old password no longer works
+        self.user.refresh_from_db()
+        self.assertFalse(self.user.check_password('OldPass123!'))
+        self.assertTrue(self.user.check_password('NewStrongPass456!'))
+
+    def test_reset_confirm_invalid_token_returns_400(self):
+        url = reverse(PW_RESET_CONFIRM_PATH)
+        response = self.client.post(url, {
+            'uid': self.uid,
+            'token': 'totally-wrong-token',
+            'new_password': 'NewStrongPass456!',
+        }, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['error']['code'], 'invalid_token')
+
+    def test_reset_confirm_invalid_uid_returns_400(self):
+        url = reverse(PW_RESET_CONFIRM_PATH)
+        response = self.client.post(url, {
+            'uid': 'invaliduid!!',
+            'token': self.token,
+            'new_password': 'NewStrongPass456!',
+        }, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['error']['code'], 'invalid_link')
+
+    def test_reset_confirm_token_used_twice_returns_400(self):
+        """A token cannot be reused after a successful reset."""
+        url = reverse(PW_RESET_CONFIRM_PATH)
+        payload = {
+            'uid': self.uid,
+            'token': self.token,
+            'new_password': 'NewStrongPass456!',
+        }
+        self.client.post(url, payload, format='json')
+        response = self.client.post(url, payload, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_reset_confirm_weak_password_returns_400(self):
+        url = reverse(PW_RESET_CONFIRM_PATH)
+        response = self.client.post(url, {
+            'uid': self.uid,
+            'token': self.token,
+            'new_password': '123',
+        }, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
