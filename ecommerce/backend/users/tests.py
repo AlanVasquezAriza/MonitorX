@@ -220,3 +220,139 @@ class PasswordResetTests(APITestCase):
             'new_password': '123',
         }, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+
+# ── Permission path names ────────────────────────────────────────────────────
+USER_LIST_PATH = 'user_list'
+USER_DETAIL_PATH = 'user_detail'
+
+
+class IsAdminPermissionTests(APITestCase):
+    """Tests for the IsAdmin permission class (T1.6)."""
+
+    def setUp(self):
+        self.admin = User.objects.create_user(
+            email='admin@example.com',
+            password='AdminPass123!',
+            role='ADMIN',
+        )
+        self.customer = User.objects.create_user(
+            email='customer@example.com',
+            password='CustPass123!',
+            role='CUSTOMER',
+        )
+
+    def _auth(self, user):
+        url = reverse(LOGIN_PATH)
+        response = self.client.post(url, {
+            'email': user.email,
+            'password': 'AdminPass123!' if user.role == 'ADMIN' else 'CustPass123!',
+        }, format='json')
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {response.data["access"]}')
+
+    # ── User list (IsAdmin) ──────────────────────────────────────────────
+    def test_admin_can_list_users(self):
+        self._auth(self.admin)
+        url = reverse(USER_LIST_PATH)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_customer_cannot_list_users(self):
+        self._auth(self.customer)
+        url = reverse(USER_LIST_PATH)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_unauthenticated_cannot_list_users(self):
+        url = reverse(USER_LIST_PATH)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+class IsOwnerOrAdminPermissionTests(APITestCase):
+    """Tests for the IsOwnerOrAdmin permission class (T1.6)."""
+
+    def setUp(self):
+        self.admin = User.objects.create_user(
+            email='admin@example.com',
+            password='AdminPass123!',
+            role='ADMIN',
+        )
+        self.customer_a = User.objects.create_user(
+            email='alice@example.com',
+            password='AlicePass123!',
+            role='CUSTOMER',
+        )
+        self.customer_b = User.objects.create_user(
+            email='bob@example.com',
+            password='BobPass123!',
+            role='CUSTOMER',
+        )
+
+    def _auth(self, user):
+        passwords = {
+            self.admin.email: 'AdminPass123!',
+            self.customer_a.email: 'AlicePass123!',
+            self.customer_b.email: 'BobPass123!',
+        }
+        url = reverse(LOGIN_PATH)
+        response = self.client.post(url, {
+            'email': user.email,
+            'password': passwords[user.email],
+        }, format='json')
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {response.data["access"]}')
+
+    # ── Retrieve own profile ─────────────────────────────────────────────
+    def test_customer_can_retrieve_own_profile(self):
+        self._auth(self.customer_a)
+        url = reverse(USER_DETAIL_PATH, kwargs={'pk': self.customer_a.pk})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['email'], self.customer_a.email)
+
+    # ── Cannot retrieve another customer's profile ───────────────────────
+    def test_customer_cannot_retrieve_other_user_profile(self):
+        self._auth(self.customer_a)
+        url = reverse(USER_DETAIL_PATH, kwargs={'pk': self.customer_b.pk})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    # ── Admin can retrieve any profile ───────────────────────────────────
+    def test_admin_can_retrieve_any_user_profile(self):
+        self._auth(self.admin)
+        url = reverse(USER_DETAIL_PATH, kwargs={'pk': self.customer_a.pk})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['email'], self.customer_a.email)
+
+    # ── Update own profile ───────────────────────────────────────────────
+    def test_customer_can_update_own_profile(self):
+        self._auth(self.customer_a)
+        url = reverse(USER_DETAIL_PATH, kwargs={'pk': self.customer_a.pk})
+        response = self.client.patch(url, {'first_name': 'Alice'}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.customer_a.refresh_from_db()
+        self.assertEqual(self.customer_a.first_name, 'Alice')
+
+    # ── Cannot update another customer's profile ─────────────────────────
+    def test_customer_cannot_update_other_user_profile(self):
+        self._auth(self.customer_a)
+        url = reverse(USER_DETAIL_PATH, kwargs={'pk': self.customer_b.pk})
+        response = self.client.patch(url, {'first_name': 'Hacked'}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    # ── Admin can update any profile ─────────────────────────────────────
+    def test_admin_can_update_any_user_profile(self):
+        self._auth(self.admin)
+        url = reverse(USER_DETAIL_PATH, kwargs={'pk': self.customer_b.pk})
+        response = self.client.patch(url, {'first_name': 'Bobby'}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.customer_b.refresh_from_db()
+        self.assertEqual(self.customer_b.first_name, 'Bobby')
+
+    # ── Unauthenticated access denied ────────────────────────────────────
+    def test_unauthenticated_cannot_access_user_detail(self):
+        url = reverse(USER_DETAIL_PATH, kwargs={'pk': self.customer_a.pk})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+

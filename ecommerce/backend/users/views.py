@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from .permissions import IsAdmin, IsOwnerOrAdmin
 from .serializers import (
     RegisterSerializer,
     UserSerializer,
@@ -114,3 +115,21 @@ class PasswordResetConfirmView(APIView):
         user.set_password(serializer.validated_data['new_password'])
         user.save()
         return Response({"detail": "Password has been reset successfully."}, status=status.HTTP_200_OK)
+
+
+class UserListView(generics.ListAPIView):
+    """List all users. Admin only."""
+    queryset = User.objects.all().order_by('id')
+    serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated, IsAdmin)
+
+
+class UserDetailView(generics.RetrieveUpdateAPIView):
+    """
+    Retrieve or update a user by id.
+    - Admin can access any user.
+    - Non-admin users can only access their own profile.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated, IsOwnerOrAdmin)

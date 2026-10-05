@@ -29,9 +29,14 @@ INSTALLED_APPS = [
     "corsheaders",
     "drf_spectacular",
     "rest_framework_simplejwt.token_blacklist",
-    # Local apps (will be added in future tasks: users, categories, products, cart, orders)
+    "django_filters",
+    # Local apps
     "core",
     "users",
+    "categories",
+    "products",
+    "cart",
+    "orders",
 ]
 
 AUTH_USER_MODEL = "users.User"
@@ -112,7 +117,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_PAGINATION_CLASS": "config.pagination.CustomPageNumberPagination",
     "PAGE_SIZE": 10,
 }
 

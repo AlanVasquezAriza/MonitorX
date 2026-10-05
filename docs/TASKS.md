@@ -24,12 +24,12 @@ Orden pensado en MVPs: **MVP 1** = Fases 0-3 · **MVP 2** = Fases 4-6 · **MVP 3
 - [x] **T1.4** Auth JWT: registro, login, logout (blacklist), refresh.
   - Hecho cuando: tests cubren registro, login, refresh, logout y acceso sin token (401).
 - [x] **T1.5** Recuperación de contraseña (token + email a consola en dev).
-- [ ] **T1.6** Permisos por rol (`IsAdmin`, `IsOwnerOrAdmin`).
-- [ ] **T1.7** App `categories`: CRUD, solo ADMIN escribe.
-- [ ] **T1.8** App `products`: CRUD, búsqueda, filtros (categoría, precio), orden, paginación, `is_active`.
-- [ ] **T1.9** Imágenes de producto (almacenamiento local en volumen).
-- [ ] **T1.10** App `cart`: agregar/eliminar/cambiar cantidad, subtotal y total.
-- [ ] **T1.11** App `orders`: crear pedido desde carrito (transacción atómica), estados, `order_items`.
+- [x] **T1.6** Permisos por rol (`IsAdmin`, `IsOwnerOrAdmin`).
+- [x] **T1.7** App `categories`: CRUD, solo ADMIN escribe.
+- [x] **T1.8** App `products`: CRUD, búsqueda, filtros (categoría, precio), orden, paginación, `is_active`.
+- [x] **T1.9** Imágenes de producto (almacenamiento local en volumen).
+- [x] **T1.10** App `cart`: agregar/eliminar/cambiar cantidad, subtotal y total.
+- [x] **T1.11** App `orders`: crear pedido desde carrito (transacción atómica), estados, `order_items`.
   - Hecho cuando: crear pedido vacía el carrito y los precios quedan congelados en `unit_price`.
 - [ ] **T1.12** Manejo de errores uniforme y códigos HTTP correctos.
 - [ ] **T1.13** Documentación OpenAPI (drf-spectacular) en `/api/docs`.
