@@ -44,8 +44,16 @@ class LogoutView(APIView):
             token = RefreshToken(refresh_token)
             token.blacklist()
             return Response({"detail": "Successfully logged out."}, status=status.HTTP_205_RESET_CONTENT)
+        except KeyError:
+            return Response(
+                {"error": {"code": "missing_refresh_token", "message": "Refresh token is required."}},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         except Exception as e:
-            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": {"code": "invalid_token", "message": "Invalid or expired refresh token."}},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 
 class PasswordResetRequestView(APIView):

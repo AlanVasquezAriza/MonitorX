@@ -119,6 +119,7 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PAGINATION_CLASS": "config.pagination.CustomPageNumberPagination",
     "PAGE_SIZE": 10,
+    "EXCEPTION_HANDLER": "config.exceptions.custom_exception_handler",
 }
 
 # DRF Spectacular

@@ -4,6 +4,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from users.permissions import IsAdmin
 from .models import Product
 from .serializers import ProductSerializer
+from .filters import ProductFilter
 
 
 class ProductListCreateView(generics.ListCreateAPIView):
@@ -12,7 +13,7 @@ class ProductListCreateView(generics.ListCreateAPIView):
     POST: Create a product (admin only).
     """
     serializer_class = ProductSerializer
-    from .filters import ProductFilter
+    filterset_class = ProductFilter
 
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_class = ProductFilter
