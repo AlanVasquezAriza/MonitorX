@@ -151,6 +151,30 @@ class ProductCRUDTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data["results"]), 1)
 
+    def test_filter_by_min_price(self):
+        Product.objects.create(name="Cheap", slug="cheap", price=10.00, category=self.category)
+        self._auth(self.customer)
+        url = reverse(PRODUCT_LIST_PATH)
+        response = self.client.get(url, {"min_price": 500})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data["results"]), 1)  # only laptop
+
+    def test_filter_by_max_price(self):
+        Product.objects.create(name="Cheap", slug="cheap", price=10.00, category=self.category)
+        self._auth(self.customer)
+        url = reverse(PRODUCT_LIST_PATH)
+        response = self.client.get(url, {"max_price": 500})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data["results"]), 1)  # only cheap
+
+    def test_filter_by_price_range(self):
+        Product.objects.create(name="Cheap", slug="cheap", price=10.00, category=self.category)
+        self._auth(self.customer)
+        url = reverse(PRODUCT_LIST_PATH)
+        response = self.client.get(url, {"min_price": 5, "max_price": 50})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data["results"]), 1)  # only cheap
+
     # ── Ordering ───────────────────────────────────────────────────────────
     def test_order_by_price_ascending(self):
         Product.objects.create(name="Cheap", slug="cheap", price=10.00, category=self.category)

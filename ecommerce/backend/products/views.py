@@ -12,8 +12,10 @@ class ProductListCreateView(generics.ListCreateAPIView):
     POST: Create a product (admin only).
     """
     serializer_class = ProductSerializer
+    from .filters import ProductFilter
+
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ["category", "is_active"]
+    filterset_class = ProductFilter
     search_fields = ["name", "description"]
     ordering_fields = ["price", "name", "created_at"]
     ordering = ["-created_at"]
