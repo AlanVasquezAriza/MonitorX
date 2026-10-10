@@ -31,10 +31,10 @@ Orden pensado en MVPs: **MVP 1** = Fases 0-3 · **MVP 2** = Fases 4-6 · **MVP 3
 - [x] **T1.10** App `cart`: agregar/eliminar/cambiar cantidad, subtotal y total.
 - [x] **T1.11** App `orders`: crear pedido desde carrito (transacción atómica), estados, `order_items`.
   - Hecho cuando: crear pedido vacía el carrito y los precios quedan congelados en `unit_price`.
-- [ ] **T1.12** Manejo de errores uniforme y códigos HTTP correctos.
-- [ ] **T1.13** Documentación OpenAPI (drf-spectacular) en `/api/docs`.
-- [ ] **T1.14** Comando `seed` con categorías, productos y usuarios de ejemplo.
-- [ ] **T1.15** Tests: cobertura mínima 80% en `users`, `products`, `cart`, `orders`.
+- [x] **T1.12** Manejo de errores uniforme y códigos HTTP correctos.
+- [x] **T1.13** Documentación OpenAPI (drf-spectacular) en `/api/docs`.
+- [x] **T1.14** Comando `seed` con categorías, productos y usuarios de ejemplo.
+- [x] **T1.15** Tests: cobertura mínima 80% en `users`, `products`, `cart`, `orders`.
 
 ---
 

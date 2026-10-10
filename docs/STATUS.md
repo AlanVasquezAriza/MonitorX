@@ -4,8 +4,8 @@
 
 ## Resumen
 - **Fase activa:** 1 — E-Commerce backend (MVP 1)
-- **Última tarea completada:** T1.11
-- **Siguiente tarea:** T1.12
+- **Última tarea completada:** T1.15
+- **Siguiente tarea:** T2.1
 - **MVP actual:** MVP 1 (en progreso)
 
 ## Qué funciona hoy
@@ -19,6 +19,10 @@
 - App `products` con CRUD, búsqueda, filtros, orden, paginación e imágenes (18/18 tests pasando).
 - App `cart` con agregar/eliminar/cambiar cantidad, subtotal y total (13/13 tests pasando).
 - App `orders`: pedido desde carrito en transacción atómica, estados y `order_items` con `unit_price` congelado (15/15 tests pasando).
+- Manejo de errores uniforme: handler global con formato `{"error": {"code", "message"}}`, códigos HTTP correctos (7 tests config + integración).
+- Documentación OpenAPI con Swagger UI en `/api/docs/`, esquema en `/api/schema/` y ReDoc en `/api/redoc/`.
+- Comando `python manage.py seed_data`: 4 categorías, 8 productos y usuarios de ejemplo idempotentes; contraseñas configurables por entorno.
+- Cobertura de `users`, `products`, `cart` y `orders`: 96.70% (84 pruebas); pytest exige un mínimo de 80%.
 
 ## Cómo correrlo
 ```text
@@ -35,10 +39,10 @@
 ## Log de sesiones (más reciente arriba; conservar solo las últimas 5)
 | Fecha | Tareas | Notas |
 |---|---|---|
+| 2026-10-09 | T1.15 | Cobertura de `users`, `products`, `cart` y `orders`: 96.70% con 84 pruebas; umbral 80% configurado. |
+| 2026-10-09 | T1.14 | Comando de seed idempotente para categorías, productos y usuarios. Prueba del comando: 1 pasada. |
+| 2026-10-09 | T1.13 | Documentación OpenAPI ya configurada; pruebas de esquema y Swagger UI añadidas. No se pudieron ejecutar: pytest no está instalado en el entorno local. |
+| 2026-10-09 | T1.12 | Manejo de errores uniforme (handler global) — 7 tests nuevos + integración. |
 | 2026-10-05 | T1.11 | App orders: pedido atómico desde carrito, estados, unit_price congelado — 15 tests pasando. |
-| 2026-10-04 | T1.10 | App cart: agregar/eliminar/cambiar cantidad + subtotal/total — 13 tests pasando. |
-| 2026-10-04 | T1.9 | Imágenes de producto con almacenamiento local (Pillow instalado). |
-| 2026-10-04 | T1.8 | App products: CRUD + búsqueda + filtros + orden + paginación — 18 tests pasando. |
-| 2026-10-04 | T1.7 | App categories: CRUD con permisos solo ADMIN — 14 tests pasando. |
 
 

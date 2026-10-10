@@ -98,3 +98,22 @@ class ExceptionHandlerTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn("error", response.data)
         self.assertEqual(response.data["error"]["code"], "invalid_token")
+
+
+class OpenApiDocumentationTests(APITestCase):
+    """Tests for the browsable OpenAPI documentation (T1.13)."""
+
+    def test_openapi_schema_is_available_and_documents_api_routes(self):
+        response = self.client.get(reverse("schema"))
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["info"]["title"], "E-Commerce API")
+        self.assertIn("/api/auth/login/", response.data["paths"])
+        self.assertIn("/api/products/", response.data["paths"])
+        self.assertIn("/api/orders/", response.data["paths"])
+
+    def test_swagger_ui_is_available(self):
+        response = self.client.get(reverse("swagger-ui"))
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertContains(response, "swagger-ui")
