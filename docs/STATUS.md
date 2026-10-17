@@ -3,9 +3,9 @@
 > La IA actualiza este archivo al terminar CADA sesión. Máximo ~40 líneas; borra lo viejo del log.
 
 ## Resumen
-- **Fase activa:** 1 — E-Commerce backend (MVP 1)
-- **Última tarea completada:** T1.15
-- **Siguiente tarea:** T2.1
+- **Fase activa:** 2 — E-Commerce frontend (MVP 1)
+- **Última tarea completada:** T2.10
+- **Siguiente tarea:** T2.11
 - **MVP actual:** MVP 1 (en progreso)
 
 ## Qué funciona hoy
@@ -23,6 +23,7 @@
 - Documentación OpenAPI con Swagger UI en `/api/docs/`, esquema en `/api/schema/` y ReDoc en `/api/redoc/`.
 - Comando `python manage.py seed_data`: 4 categorías, 8 productos y usuarios de ejemplo idempotentes; contraseñas configurables por entorno.
 - Cobertura de `users`, `products`, `cart` y `orders`: 96.70% (84 pruebas); pytest exige un mínimo de 80%.
+- Frontend E-Commerce inicializado con Vite, React, TypeScript, Tailwind, TanStack Query y React Router.
 
 ## Cómo correrlo
 ```text
@@ -39,10 +40,10 @@
 ## Log de sesiones (más reciente arriba; conservar solo las últimas 5)
 | Fecha | Tareas | Notas |
 |---|---|---|
+| 2026-10-11 | T2.1 | Base React + TypeScript creada con Tailwind, Query Client y rutas. Build y lint pasan. |
 | 2026-10-09 | T1.15 | Cobertura de `users`, `products`, `cart` y `orders`: 96.70% con 84 pruebas; umbral 80% configurado. |
 | 2026-10-09 | T1.14 | Comando de seed idempotente para categorías, productos y usuarios. Prueba del comando: 1 pasada. |
 | 2026-10-09 | T1.13 | Documentación OpenAPI ya configurada; pruebas de esquema y Swagger UI añadidas. No se pudieron ejecutar: pytest no está instalado en el entorno local. |
 | 2026-10-09 | T1.12 | Manejo de errores uniforme (handler global) — 7 tests nuevos + integración. |
-| 2026-10-05 | T1.11 | App orders: pedido atómico desde carrito, estados, unit_price congelado — 15 tests pasando. |
 
 

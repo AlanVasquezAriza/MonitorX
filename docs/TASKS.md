@@ -39,16 +39,16 @@ Orden pensado en MVPs: **MVP 1** = Fases 0-3 · **MVP 2** = Fases 4-6 · **MVP 3
 ---
 
 ## FASE 2 — E-Commerce frontend (MVP 1)
-- [ ] **T2.1** Proyecto Vite + React + TS + Tailwind + TanStack Query + React Router.
-- [ ] **T2.2** Cliente API tipado (axios/fetch) con interceptor de refresh token.
-- [ ] **T2.3** Layout base, navbar, manejo de sesión (AuthContext/hook).
-- [ ] **T2.4** Páginas Login y Register con validación.
-- [ ] **T2.5** Home + listado de productos con búsqueda, filtros, paginación.
-- [ ] **T2.6** Detalle de producto.
-- [ ] **T2.7** Carrito (agregar, quitar, cambiar cantidad, totales).
-- [ ] **T2.8** Checkout y creación de pedido.
-- [ ] **T2.9** Historial de pedidos y perfil.
-- [ ] **T2.10** Rutas protegidas por rol; panel Admin mínimo (CRUD productos/categorías).
+- [x] **T2.1** Proyecto Vite + React + TS + Tailwind + TanStack Query + React Router.
+- [x] **T2.2** Cliente API tipado (axios/fetch) con interceptor de refresh token.
+- [x] **T2.3** Layout base, navbar, manejo de sesión (AuthContext/hook).
+- [x] **T2.4** Páginas Login y Register con validación.
+- [x] **T2.5** Home + listado de productos con búsqueda, filtros, paginación.
+- [x] **T2.6** Detalle de producto.
+- [x] **T2.7** Carrito (agregar, quitar, cambiar cantidad, totales).
+- [x] **T2.8** Checkout y creación de pedido.
+- [x] **T2.9** Historial de pedidos y perfil.
+- [x] **T2.10** Rutas protegidas por rol; panel Admin mínimo (CRUD productos/categorías).
 - [ ] **T2.11** Tests de componentes clave (Vitest).
 
 ---

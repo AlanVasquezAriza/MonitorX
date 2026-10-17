@@ -62,6 +62,7 @@ make seed      # datos de ejemplo
 ## Mapa de documentos
 | Archivo | Para qué | Cuándo leerlo |
 |---|---|---|
+| `docs/CEREBRO_PROYECTO.md` | Cerebro del proyecto, mapa y navegación para ediciones | Para ubicar archivos sin leer todo el código |
 | `docs/STATUS.md` | Estado actual y siguiente paso | Siempre |
 | `docs/TASKS.md` | Fases y tareas | Solo la fase activa |
 | `docs/CONVENTIONS.md` | Estilo, nombres, commits, tests | Al escribir código nuevo |
