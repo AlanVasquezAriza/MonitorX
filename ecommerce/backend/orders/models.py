@@ -31,6 +31,8 @@ class Order(models.Model):
         decimal_places=2,
         default=Decimal("0.00"),
     )
+    shipping_address = models.TextField(_("shipping address"), blank=True, default="")
+    notes = models.TextField(_("notes"), blank=True, default="")
     created_at = models.DateTimeField(_("created at"), auto_now_add=True)
     updated_at = models.DateTimeField(_("updated at"), auto_now=True)
 

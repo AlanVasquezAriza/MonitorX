@@ -1,5 +1,5 @@
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from users.permissions import IsAdmin
 from .models import Category
 from .serializers import CategorySerializer
@@ -7,7 +7,7 @@ from .serializers import CategorySerializer
 
 class CategoryListCreateView(generics.ListCreateAPIView):
     """
-    GET: List all categories (any authenticated user).
+    GET: List all categories (public).
     POST: Create a new category (admin only).
     """
     queryset = Category.objects.all().order_by("name")
@@ -16,12 +16,12 @@ class CategoryListCreateView(generics.ListCreateAPIView):
     def get_permissions(self):
         if self.request.method == "POST":
             return [IsAuthenticated(), IsAdmin()]
-        return [IsAuthenticated()]
+        return [AllowAny()]
 
 
 class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
-    GET: Retrieve a category (any authenticated user).
+    GET: Retrieve a category (public).
     PUT/PATCH: Update a category (admin only).
     DELETE: Delete a category (admin only).
     """
@@ -31,4 +31,4 @@ class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     def get_permissions(self):
         if self.request.method in ("PUT", "PATCH", "DELETE"):
             return [IsAuthenticated(), IsAdmin()]
-        return [IsAuthenticated()]
+        return [AllowAny()]

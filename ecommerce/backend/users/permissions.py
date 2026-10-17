@@ -3,14 +3,14 @@ from rest_framework.permissions import BasePermission
 
 class IsAdmin(BasePermission):
     """
-    Allows access only to users with the ADMIN role.
+    Allows access to users with the ADMIN role or is_staff flag.
     """
 
     def has_permission(self, request, view):
         return (
             request.user
             and request.user.is_authenticated
-            and request.user.role == "ADMIN"
+            and (request.user.role == "ADMIN" or getattr(request.user, "is_staff", False))
         )
 
 
@@ -26,7 +26,7 @@ class IsOwnerOrAdmin(BasePermission):
     """
 
     def has_object_permission(self, request, view, obj):
-        if request.user.role == "ADMIN":
+        if request.user.role == "ADMIN" or getattr(request.user, "is_staff", False):
             return True
 
         # Determine the owner of the object

@@ -27,7 +27,9 @@ class OrderListCreateView(generics.ListCreateAPIView):
 
     def create(self, request, *args, **kwargs):
         try:
-            order = create_order_from_cart(request.user)
+            shipping_address = request.data.get("shipping_address", "")
+            notes = request.data.get("notes", "")
+            order = create_order_from_cart(request.user, shipping_address=shipping_address, notes=notes)
         except OrderError as exc:
             return Response(
                 {"error": {"code": exc.code, "message": exc.message}},

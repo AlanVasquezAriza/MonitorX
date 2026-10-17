@@ -21,11 +21,12 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True, read_only=True)
+    user_email = serializers.EmailField(source="user.email", read_only=True)
 
     class Meta:
         model = Order
-        fields = ["id", "user", "status", "total", "items", "created_at", "updated_at"]
-        read_only_fields = fields
+        fields = ["id", "user", "user_email", "status", "total", "shipping_address", "notes", "items", "created_at", "updated_at"]
+        read_only_fields = ["id", "user", "user_email", "total", "created_at", "updated_at"]
 
 
 class OrderStatusUpdateSerializer(serializers.ModelSerializer):

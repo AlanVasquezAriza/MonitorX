@@ -1,5 +1,5 @@
 from rest_framework import generics, filters
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 from users.permissions import IsAdmin
 from .models import Product
@@ -9,7 +9,7 @@ from .filters import ProductFilter
 
 class ProductListCreateView(generics.ListCreateAPIView):
     """
-    GET: List products with search, filters, ordering and pagination.
+    GET: List products with search, filters, ordering and pagination (public).
     POST: Create a product (admin only).
     """
     serializer_class = ProductSerializer
@@ -27,12 +27,12 @@ class ProductListCreateView(generics.ListCreateAPIView):
     def get_permissions(self):
         if self.request.method == "POST":
             return [IsAuthenticated(), IsAdmin()]
-        return [IsAuthenticated()]
+        return [AllowAny()]
 
 
 class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
-    GET: Retrieve a product (any authenticated user).
+    GET: Retrieve a product (public).
     PUT/PATCH: Update a product (admin only).
     DELETE: Delete a product (admin only).
     """
@@ -44,4 +44,4 @@ class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
     def get_permissions(self):
         if self.request.method in ("PUT", "PATCH", "DELETE"):
             return [IsAuthenticated(), IsAdmin()]
-        return [IsAuthenticated()]
+        return [AllowAny()]

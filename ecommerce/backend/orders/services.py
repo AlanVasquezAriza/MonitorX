@@ -9,7 +9,7 @@ from .exceptions import OrderError
 from .models import Order, OrderItem
 
 
-def create_order_from_cart(user) -> Order:
+def create_order_from_cart(user, shipping_address: str = "", notes: str = "") -> Order:
     """Create an order from the user's cart inside an atomic transaction.
 
     Cart items are copied with a frozen ``unit_price``, then the cart is emptied.
@@ -24,7 +24,12 @@ def create_order_from_cart(user) -> Order:
         if not items:
             raise OrderError("empty_cart", "Cart is empty.")
 
-        order = Order.objects.create(user=user, status=Order.Status.PENDING)
+        order = Order.objects.create(
+            user=user,
+            status=Order.Status.PENDING,
+            shipping_address=shipping_address,
+            notes=notes,
+        )
         total = Decimal("0.00")
 
         for item in items:
