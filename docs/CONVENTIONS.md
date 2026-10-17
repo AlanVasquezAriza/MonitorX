@@ -17,7 +17,7 @@ test(orders): cover atomic order creation
 Siempre incluir el ID de tarea cuando aplique. Ramas: `feat/T1.8-products-search`.
 
 ## Python (Django, FastAPI, agente)
-- Python 3.12, tipado con type hints, `ruff` + `black`.
+- Python 3.13, tipado con type hints, `ruff` + `black`.
 - Django: una app por módulo; lógica de negocio en `services.py`, no en views ni serializers.
 - Views delgadas: validan, llaman al service, devuelven respuesta.
 - FastAPI: routers en `api/`, esquemas Pydantic en `schemas/`, lógica en `services/`, dependencias inyectadas con `Depends`.
@@ -25,12 +25,14 @@ Siempre incluir el ID de tarea cuando aplique. Ramas: `feat/T1.8-products-search
 - Modelos: `snake_case`, `created_at`/`updated_at` en todas las tablas.
 - Errores: respuestas JSON uniformes `{ "error": { "code": "...", "message": "..." } }`.
 
-## TypeScript / React
+## TypeScript / React (frontend E-Commerce: Next.js App Router)
 - `strict: true`. Componentes funcionales, nombres en `PascalCase`, hooks `useXxx`.
-- Estructura por feature: `features/<name>/{components,hooks,api,types}`.
-- Datos del servidor con TanStack Query; estado local con `useState`/context; nada de lógica de negocio en componentes.
+- Rutas y páginas en `app/`; componentes en `components/<feature>/`; utilidades en `lib/`.
+- Datos del servidor con SWR (`lib/hooks.ts`); estado local con `useState`/context; nada de lógica de negocio en componentes.
 - Estilos con Tailwind; sin CSS suelto salvo casos justificados.
 - Tests con Vitest + Testing Library: probar comportamiento, no implementación.
+  - Usar `userEvent.setup({ delay: null })`: el retardo por teclado hace los tests flaky con coverage.
+  - Recordar que los campos `required` disparan validación HTML5 en `requestSubmit`; rellenarlos todos.
 
 ## API
 - REST, sustantivos en plural, códigos correctos (200/201/204/400/401/403/404/409/422/429/500).

@@ -19,20 +19,27 @@ Los une un **Monitoring Agent** (Python/FastAPI/psutil) que corre junto al E-Com
 8. Sin lógica de negocio en componentes React (usar hooks/servicios).
 
 ## Stack y versiones
-- Backend E-Commerce: Python 3.12, Django, DRF, SimpleJWT, Celery, PostgreSQL 16, Redis 7
-- Frontend (ambos): React + TypeScript + Vite + Tailwind + TanStack Query (gráficas: Recharts)
+- Backend E-Commerce: Python 3.13, Django 5.2, DRF 3.18, SimpleJWT, Celery, PostgreSQL 16, Redis 7
+- Frontend E-Commerce: Next.js 16 (App Router) + React 19 + TypeScript + Tailwind 4 + SWR
+- Frontend MonitorX (fase 6, aún no existe): React + TypeScript + Vite + TanStack Query + Recharts
 - MonitorX API: FastAPI, SQLAlchemy 2.x, Alembic, PostgreSQL 16
 - Agente: FastAPI, psutil, docker SDK, httpx
-- Tests: pytest (backend/agente), Vitest + Testing Library (front), Playwright (e2e)
+- Tests: pytest + pytest-django (backend), Vitest + Testing Library (front), Playwright (e2e)
 - Lint/format: ruff + black (Python), eslint + prettier (TS)
+- Gestor de paquetes: **npm** en todo el monorepo (el pnpm declarado antes era inválido)
 - CI: GitHub Actions
 
 ## Estructura
 ```text
-ecommerce/{frontend,backend,nginx}  monitoring-agent/{app,collectors}
-monitorx/{frontend,backend}         infrastructure/  scripts/load-test/
-docs/  .github/workflows/
+ecommerce/frontend/{app,components,lib,public}   # Next.js App Router
+ecommerce/backend/{config,core,users,categories,products,cart,orders}
+ecommerce/nginx      monitoring-agent/{app,collectors}
+monitorx/backend/    monitorx/frontend/
+infrastructure/      scripts/load-test/
+docs/                .github/workflows/
 ```
+En el frontend: `app/` = rutas y páginas, `components/<feature>/` = componentes,
+`lib/` = cliente API (`api.ts`), hooks SWR (`hooks.ts`), servicios y tipos.
 
 ## Comandos clave (actualizar cuando existan)
 ```text
@@ -41,6 +48,22 @@ make down      # apaga
 make test      # tests de todos los módulos
 make lint      # lint de todos los módulos
 make seed      # datos de ejemplo
+```
+
+## Comandos reales por módulo
+```text
+# Backend (venv local, SQLite salvo DATABASE_URL)
+cd ecommerce/backend && .\venv\Scripts\python.exe manage.py migrate
+cd ecommerce/backend && .\venv\Scripts\python.exe manage.py runserver
+cd ecommerce/backend && .\venv\Scripts\python.exe manage.py seed_data
+cd ecommerce/backend && .\venv\Scripts\python.exe -m pytest --no-cov -q   # lento: PBKDF2 hashea en cada test
+
+# Frontend (Next.js, npm)
+cd ecommerce/frontend && npm run dev
+cd ecommerce/frontend && npm test           # vitest run
+cd ecommerce/frontend && npm run test:watch
+cd ecommerce/frontend && npm run test:coverage
+cd ecommerce/frontend && npm run build
 ```
 
 ## Cómo trabajar (flujo de cada sesión)

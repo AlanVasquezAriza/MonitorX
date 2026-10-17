@@ -23,7 +23,7 @@
 - Documentación OpenAPI con Swagger UI en `/api/docs/`, esquema en `/api/schema/` y ReDoc en `/api/redoc/`.
 - Comando `python manage.py seed_data`: 4 categorías, 8 productos y usuarios de ejemplo idempotentes; contraseñas configurables por entorno.
 - Cobertura de `users`, `products`, `cart` y `orders`: 96.70% (84 pruebas); pytest exige un mínimo de 80%.
-- Frontend E-Commerce inicializado con Vite, React, TypeScript, Tailwind, TanStack Query y React Router.
+- Frontend E-Commerce con Next.js 16 (App Router), React 19, TypeScript, Tailwind 4 y SWR.
 - Tests de componentes con Vitest + Testing Library: 73 pruebas sobre `QuantityStepper`, `CartView`, `LoginForm`, `RegisterForm`, `ProductCard`, estados vacíos y utilidades de formato. Cobertura 97–100% en los módulos probados.
 
 ## Cómo correrlo
