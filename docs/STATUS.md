@@ -4,8 +4,8 @@
 
 ## Resumen
 - **Fase activa:** 2 — E-Commerce frontend (MVP 1)
-- **Última tarea completada:** T2.10
-- **Siguiente tarea:** T2.11
+- **Última tarea completada:** T2.11
+- **Siguiente tarea:** T3.1 (Fase 3 — Infraestructura Docker)
 - **MVP actual:** MVP 1 (en progreso)
 
 ## Qué funciona hoy
@@ -24,6 +24,7 @@
 - Comando `python manage.py seed_data`: 4 categorías, 8 productos y usuarios de ejemplo idempotentes; contraseñas configurables por entorno.
 - Cobertura de `users`, `products`, `cart` y `orders`: 96.70% (84 pruebas); pytest exige un mínimo de 80%.
 - Frontend E-Commerce inicializado con Vite, React, TypeScript, Tailwind, TanStack Query y React Router.
+- Tests de componentes con Vitest + Testing Library: 73 pruebas sobre `QuantityStepper`, `CartView`, `LoginForm`, `RegisterForm`, `ProductCard`, estados vacíos y utilidades de formato. Cobertura 97–100% en los módulos probados.
 
 ## Cómo correrlo
 ```text
@@ -40,6 +41,7 @@
 ## Log de sesiones (más reciente arriba; conservar solo las últimas 5)
 | Fecha | Tareas | Notas |
 |---|---|---|
+| 2026-10-17 | T2.11 | Vitest + Testing Library configurados; 73 tests sobre componentes clave con lógica. npm como package manager oficial. |
 | 2026-10-11 | T2.1 | Base React + TypeScript creada con Tailwind, Query Client y rutas. Build y lint pasan. |
 | 2026-10-09 | T1.15 | Cobertura de `users`, `products`, `cart` y `orders`: 96.70% con 84 pruebas; umbral 80% configurado. |
 | 2026-10-09 | T1.14 | Comando de seed idempotente para categorías, productos y usuarios. Prueba del comando: 1 pasada. |

@@ -49,7 +49,7 @@ Orden pensado en MVPs: **MVP 1** = Fases 0-3 · **MVP 2** = Fases 4-6 · **MVP 3
 - [x] **T2.8** Checkout y creación de pedido.
 - [x] **T2.9** Historial de pedidos y perfil.
 - [x] **T2.10** Rutas protegidas por rol; panel Admin mínimo (CRUD productos/categorías).
-- [ ] **T2.11** Tests de componentes clave (Vitest).
+- [x] **T2.11** Tests de componentes clave (Vitest).
 
 ---
 
